@@ -24,25 +24,26 @@ export default function Login({ onLogin }) {
 
     event.preventDefault();
 
-    const response = await fetch(`http://190.56.17.46:6565/api/UserLogin/GetUserLoginAuth?username=${username}&password=${password}`);
+    const response = await fetch(`http://190.56.17.46:6565/api/UserLogin/GetUserLoginAuth?username=${username}&password=${password}`, {
+  method: 'GET',
+  mode: 'cors', // Habilitar CORS
+});
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data === 1) {
-        // Guardar en sessionStorage
-        const randomString = generateRandomString(50);
-        //sessionStorage.setItem("username", username);
-        //sessionStorage.setItem("password", password);
-        sessionStorage.setItem("tokenSession", randomString);
-        // Llamar a la función de inicio de sesión
-        onLogin();
-      } else {
-        alert("Credenciales inválidas. Por favor, inténtelo de nuevo.");
-      }
-    } else {
-      alert("Ha ocurrido un error al intentar iniciar sesión. Por favor, inténtelo de nuevo.");
-    }
-  };
+if (response.ok) {
+  const data = await response.json();
+  if (data === 1) {
+    // Guardar en sessionStorage
+    const randomString = generateRandomString(50);
+    sessionStorage.setItem("tokenSession", randomString);
+    // Llamar a la función de inicio de sesión
+    onLogin();
+  } else {
+    alert("Credenciales inválidas. Por favor, inténtelo de nuevo.");
+  }
+} else {
+  alert("Ha ocurrido un error al intentar iniciar sesión. Por favor, inténtelo de nuevo.");
+}
+
 
   function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|[]\\;\',./<>?:';
