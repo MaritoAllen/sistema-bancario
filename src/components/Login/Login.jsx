@@ -1,12 +1,3 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import "./Login.css";
-import logoSistema from "../../img/sistema-logo-horizontal.png";
-
 export default function Login({ onLogin }) {
   const [validated, setValidated] = useState(false);
   const [username, setUsername] = useState("");
@@ -25,25 +16,25 @@ export default function Login({ onLogin }) {
     event.preventDefault();
 
     const response = await fetch(`http://190.56.17.46:6565/api/UserLogin/GetUserLoginAuth?username=${username}&password=${password}`, {
-  method: 'GET',
-  mode: 'cors', // Habilitar CORS
-});
+      method: 'GET',
+      mode: 'cors', // Habilitar CORS
+    });
 
-if (response.ok) {
-  const data = await response.json();
-  if (data === 1) {
-    // Guardar en sessionStorage
-    const randomString = generateRandomString(50);
-    sessionStorage.setItem("tokenSession", randomString);
-    // Llamar a la función de inicio de sesión
-    onLogin();
-  } else {
-    alert("Credenciales inválidas. Por favor, inténtelo de nuevo.");
-  }
-} else {
-  alert("Ha ocurrido un error al intentar iniciar sesión. Por favor, inténtelo de nuevo.");
-}
-
+    if (response.ok) {
+      const data = await response.json();
+      if (data === 1) {
+        // Guardar en sessionStorage
+        const randomString = generateRandomString(50);
+        sessionStorage.setItem("tokenSession", randomString);
+        // Llamar a la función de inicio de sesión
+        onLogin();
+      } else {
+        alert("Credenciales inválidas. Por favor, inténtelo de nuevo.");
+      }
+    } else {
+      alert("Ha ocurrido un error al intentar iniciar sesión. Por favor, inténtelo de nuevo.");
+    }
+  };
 
   function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|[]\\;\',./<>?:';
@@ -82,7 +73,7 @@ if (response.ok) {
             <Form.Group as={Col} md="12" controlId="validationCustom03">
               <Form.Label className="input-title">Ingrese su contraseña</Form.Label>
               <Form.Control type="password" className="input-login" value={password}
-        onChange={(e) => setPassword(e.target.value)} required />
+                onChange={(e) => setPassword(e.target.value)} required />
               <Form.Control.Feedback type="invalid">
                 Ingrese su contraseña.
               </Form.Control.Feedback>
@@ -98,4 +89,3 @@ if (response.ok) {
 Login.propTypes = {
   onLogin: PropTypes.func.isRequired,
 };
-
