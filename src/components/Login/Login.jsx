@@ -24,7 +24,7 @@ export default function Login({ onLogin }) {
 
     event.preventDefault();
 
-    const response = await fetch(`${apiUrlBase}/UserLogin/GetUserLoginAuth?username=${username}&password=${password}`);
+    const response = await fetch(`http://190.56.17.46:6565/api/UserLogin/GetUserLoginAuth?username=${username}&password=${password}`);
 
     if (response.ok) {
       const data = await response.json();
